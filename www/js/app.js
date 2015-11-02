@@ -39,28 +39,37 @@ alarming.controller('notificationCtrl', function($http, $ionicPush) {
   $ionicPush.register();
 
   self.postNotification = function() {
-    var postNotification = {
-                              "tokens":[
-                                self.dataToken
-                              ],
-                              "notification":{
-                                "alert":"Hello World!",
-                                "ios":{
-                                  "badge":1,
-                                  "sound":"ping.aiff",
-                                  "expiry": 1423238641,
-                                  "priority": 10,
-                                  "contentAvailable": 1,
-                                  "payload":{
-                                    "key1":"value",
-                                    "key2":"value"
-                                  }
-                                }
-                              }
-                            };
-    $http.post('https://push.ionic.io/api/v1/push', postNotification, 'POST').then(function successCallback(response){
-      var user_id = angular.fromJson(response).data;
-      console.log(user_id)
-   });
+    var privateKey = SECRET_KEY;
+    var tokens = [self.dataToken];
+    var appId = "20cb5a37";
+
+    // Encode your key
+    var auth = btoa(privateKey + ':');
+
+    // Build the request object
+    var req = {
+      method: 'POST',
+      url: 'https://push.ionic.io/api/v1/push',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Ionic-Application-Id': appId,
+        'Authorization': 'basic ' + auth
+      },
+      data: {
+        "tokens": tokens,
+        "notification": {
+          "alert":"Hello World!"
+        }
+      }
+    };
+
+    // Make the API call
+    $http(req).success(function(resp){
+      // Handle success
+      console.log("Ionic Push: Push success!");
+    }).error(function(error){
+      // Handle error
+      console.log("Ionic Push: Push error...");
+    });
   };
 });
