@@ -27,8 +27,7 @@ alarming.controller('notificationCtrl', function($http, $ionicPush) {
   $ionicPush.init({
     "debug": true,
     "onNotification": function(notification) {
-      var payload = notification.payload;
-      console.log(notification, payload);
+      alert(notification.text);
     },
     "onRegister": function(data) {
       console.log(data.token);
