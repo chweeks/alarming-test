@@ -71,4 +71,20 @@ alarming.controller('notificationCtrl', function($http, $ionicPush) {
       console.log("Ionic Push: Push error...");
     });
   };
+
+  self.calculateDelay = function(time) {
+    currentTime = new Date
+    currentYear = currentTime.getFullYear();
+    currentMonth = currentTime.getMonth();
+    currentDate = currentTime.getDate();
+    time.setFullYear(currentYear);
+    time.setMonth(currentMonth);
+    time.setDate(currentDate);
+    return (time.getTime() - currentTime.getTime());
+  };
+
+  self.sendNotification = function(message, time) {
+    var delay = self.calculateDelay(time)
+    setTimeout(self.postNotification,delay);
+  };
 });
