@@ -37,10 +37,10 @@ alarming.controller('notificationCtrl', function($http, $ionicPush) {
 
   $ionicPush.register();
 
-  self.postNotification = function() {
+  self.postNotification = function(message) {
     var privateKey = SECRET_KEY;
     var tokens = [self.dataToken];
-    var appId = "20cb5a37";
+    var appId = "8162197d";
 
     // Encode your key
     var auth = btoa(privateKey + ':');
@@ -57,7 +57,7 @@ alarming.controller('notificationCtrl', function($http, $ionicPush) {
       data: {
         "tokens": tokens,
         "notification": {
-          "alert":"Hello World!"
+          "alert": message
         }
       }
     };
